@@ -103,15 +103,15 @@ public class Result<T> {
     /**
      * 未登录返回结果
      */
-    public static <T> Result<T> unauthorized(T data) {
-        return new Result<T>(ResultCode.UNAUTHORIZED.getCode(), ResultCode.UNAUTHORIZED.getMessage(), data);
+    public static <T> Result<T> unauthorized() {
+        return new Result<T>(ResultCode.UNAUTHORIZED.getCode(), ResultCode.UNAUTHORIZED.getMessage(),null);
     }
 
     /**
      * 未授权返回结果
      */
-    public static <T> Result<T> forbidden(T data) {
-        return new Result<T>(ResultCode.FORBIDDEN.getCode(), ResultCode.FORBIDDEN.getMessage(), data);
+    public static <T> Result<T> forbidden() {
+        return new Result<T>(ResultCode.FORBIDDEN.getCode(), ResultCode.FORBIDDEN.getMessage(), null);
     }
 
     public long getCode() {

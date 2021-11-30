@@ -8,12 +8,6 @@ package com.xu.wxxplatformserver.consts;
  * @author Wen
  */
 public class CommonConst {
-
-    /**
-     * 权限缓存前缀
-     */
-    public static String GRANTED_AUTHORITY = "GrantedAuthority";
-
     /**
      * 初始密码
      */

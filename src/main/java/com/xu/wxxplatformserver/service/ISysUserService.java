@@ -17,6 +17,13 @@ import java.util.List;
 public interface ISysUserService extends IService<SysUser> {
 
     /**
+     * 根据用户id返回用户对象
+     * @param userId 用户id
+     * @return 用户对象
+     */
+    SysUser getByUserId(Long userId);
+
+    /**
      * 根据用户名返回用户对象
      * @param username 用户名
      * @return 用户对象
@@ -24,11 +31,11 @@ public interface ISysUserService extends IService<SysUser> {
     SysUser getByUsername(String username);
 
     /**
-     * 根据用户id获取对应的权限信息
+     * 返回一个账号所拥有的角色标识集合
      * @param userId 用户id
-     * @return 权限信息
+     * @return
      */
-    String getUserAuthorityInfo(Long userId);
+    List<Long> getUserRoleList(Long userId);
 
     /**
      * 根据角色id返回对应的用户列表
@@ -43,23 +50,4 @@ public interface ISysUserService extends IService<SysUser> {
      * @return 用户列表
      */
     List<SysUser> getUserListByMenuId(Long menuId);
-
-    /**
-     * 用户更改的时候清除权限缓存
-     * @param username 用户名
-     */
-    void clearUserAuthorityInfo(String username);
-
-
-    /**
-     * 角色更改的时候清除权限缓存
-     * @param roleId 角色id
-     */
-    void clearUserAuthorityInfoByRoleId(Long roleId);
-
-    /**
-     * 菜单更改的时候清除权限缓存
-     * @param menuId 菜单id
-     */
-    void clearUserAuthorityInfoByMenuId(Long menuId);
 }

@@ -30,4 +30,11 @@ public interface ISysMenuService extends IService<SysMenu> {
      */
     List<SysMenu> getCurrentUserNav(SysUser sysUser);
 
+    /**
+     * 根据角色获得对应的菜单
+     * @param roleId 角色id
+     * @return 角色对象的菜单列表
+     */
+    List<SysMenu> getSysMenuListByRoleId(Long roleId);
+
 }

@@ -1,5 +1,6 @@
 package com.xu.wxxplatformserver.service;
 
+import cn.dev33.satoken.stp.SaTokenInfo;
 import com.xu.wxxplatformserver.common.Result;
 import com.xu.wxxplatformserver.pojo.SysUser;
 
@@ -24,9 +25,9 @@ public interface UserService {
      * 登录功能
      * @param username 用户名
      * @param password 密码
-     * @return 生成的JWT的token
+     * @return SaTokenInfo
      */
-    String login(String username, String password);
+    SaTokenInfo login(String username, String password);
 
     /**
      * 得到当前用户一些基础信息

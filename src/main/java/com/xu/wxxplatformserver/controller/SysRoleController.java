@@ -1,6 +1,9 @@
 package com.xu.wxxplatformserver.controller;
 
 
+import cn.dev33.satoken.annotation.SaCheckPermission;
+import cn.dev33.satoken.session.SaSession;
+import cn.dev33.satoken.session.SaSessionCustomUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -14,7 +17,6 @@ import com.xu.wxxplatformserver.service.impl.SysUserRoleServiceImpl;
 import com.xu.wxxplatformserver.service.impl.SysUserServiceImpl;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
@@ -53,7 +55,7 @@ public class SysRoleController {
      */
     @ApiOperation(value = "角色列表")
     @RequestMapping(value = "/list", method = RequestMethod.GET)
-    @PreAuthorize("hasAuthority('system:role:list')")
+    @SaCheckPermission("system:role:list")
     public Result list(@RequestParam(value = "current", defaultValue = "1") Integer current,
                        @RequestParam(value = "size", defaultValue = "10") Integer size,
                        @RequestParam(value = "name", defaultValue = "") String name) {
@@ -74,7 +76,7 @@ public class SysRoleController {
      */
     @ApiOperation(value = "单条角色信息")
     @RequestMapping(value = "/info/{id}", method = RequestMethod.GET)
-    @PreAuthorize("hasAuthority('system:role:list')")
+    @SaCheckPermission("system:role:list")
     public Result info(@PathVariable(value = "id") Long id) {
         SysRole result = sysRoleService.getById(id);
         return Result.success(result);
@@ -87,12 +89,10 @@ public class SysRoleController {
      */
     @ApiOperation(value = "修改角色信息")
     @RequestMapping(value = "/update", method = RequestMethod.POST)
-    @PreAuthorize("hasAuthority('system:role:update')")
+    @SaCheckPermission("system:role:update")
     public Result update(@RequestBody SysRole sysRole) {
         boolean result = sysRoleService.updateById(sysRole);
         if (result) {
-            // 清除缓存
-            sysUserService.clearUserAuthorityInfoByRoleId(sysRole.getRoleId());
             return Result.success();
         } else {
             return Result.failed();
@@ -106,7 +106,7 @@ public class SysRoleController {
      */
     @ApiOperation(value = "添加角色信息")
     @RequestMapping(value = "/save", method = RequestMethod.POST)
-    @PreAuthorize("hasAuthority('system:role:save')")
+    @SaCheckPermission("system:role:save")
     public Result save(@RequestBody SysRole sysRole) {
         boolean result = sysRoleService.save(sysRole);
         if (result) {
@@ -123,19 +123,23 @@ public class SysRoleController {
      */
     @ApiOperation(value = "删除用户角色")
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
-    @PreAuthorize("hasAuthority('system:role:delete')")
     @Transactional
+    @SaCheckPermission("system:role:delete")
     public Result deleteByIds(@RequestBody Long[] ids) {
         boolean result = sysRoleService.removeByIds(Arrays.asList(ids));
         if (result) {
+            // 清理缓存
+            Arrays.stream(ids).forEach(id -> {
+                SaSession roleSession = SaSessionCustomUtil.getSessionById("role-" + id, false);
+                if (roleSession != null) {
+                    roleSession.delete("Permission_List");
+                }
+            });
+
             // 删除中间表信息
             sysRoleMenuService.remove(new QueryWrapper<SysRoleMenu>().in("role_id",ids));
             sysUserRoleService.remove(new QueryWrapper<SysUserRole>().in("role_id",ids));
 
-            // 清理缓存
-            Arrays.stream(ids).forEach(id -> {
-                sysUserService.clearUserAuthorityInfoByRoleId(id);
-            });
             return Result.success();
         } else {
             return Result.failed();
@@ -149,7 +153,7 @@ public class SysRoleController {
      */
     @ApiOperation(value = "根据角色获得对应的菜单")
     @RequestMapping(value = "/perm/{id}", method = RequestMethod.GET)
-    @PreAuthorize("hasAuthority('system:role:list')")
+    @SaCheckPermission("system:role:list")
     public Result perm(@PathVariable(value = "id") Long id) {
         SysRole result = sysRoleService.getById(id);
         List<SysRoleMenu> roleMenus = sysRoleMenuService.list(new QueryWrapper<SysRoleMenu>().eq("role_id", id));
@@ -164,9 +168,9 @@ public class SysRoleController {
      * @param menuIds 菜单id
      * @return Result
      */
-    @ApiOperation(value = "SysRoleMenu中间表")
+    @ApiOperation(value = "给角色分配权限")
     @RequestMapping(value = "/perm/{id}", method = RequestMethod.POST)
-    @PreAuthorize("hasAuthority('system:role:save')")
+    @SaCheckPermission("system:role:perm")
     public Result submit(@PathVariable(value = "id") Long id, @RequestBody Long[] menuIds) {
 
         List<SysRoleMenu> sysRoleMenus = new ArrayList<>();
@@ -179,14 +183,17 @@ public class SysRoleController {
             sysRoleMenus.add(sysRoleMenu);
         });
 
+        // 清除缓存
+        SaSession roleSession = SaSessionCustomUtil.getSessionById("role-" + id, false);
+        if (roleSession != null) {
+            roleSession.delete("Permission_List");
+        }
+
         // 删除之前的记录
         sysRoleMenuService.remove(new QueryWrapper<SysRoleMenu>().eq("role_id",id));
 
         // 添加记录
         sysRoleMenuService.saveBatch(sysRoleMenus);
-
-        // 删除缓存
-        sysUserService.clearUserAuthorityInfoByRoleId(id);
 
         return Result.success();
     }

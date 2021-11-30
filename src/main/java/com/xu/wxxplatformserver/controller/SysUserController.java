@@ -1,6 +1,10 @@
 package com.xu.wxxplatformserver.controller;
 
 
+import cn.dev33.satoken.annotation.SaCheckPermission;
+import cn.dev33.satoken.secure.SaSecureUtil;
+import cn.dev33.satoken.session.SaSession;
+import cn.dev33.satoken.stp.StpUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -12,11 +16,8 @@ import com.xu.wxxplatformserver.pojo.SysUserRole;
 import com.xu.wxxplatformserver.service.impl.SysRoleServiceImpl;
 import com.xu.wxxplatformserver.service.impl.SysUserRoleServiceImpl;
 import com.xu.wxxplatformserver.service.impl.SysUserServiceImpl;
-import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
@@ -46,8 +47,6 @@ public class SysUserController {
     @Autowired
     private SysRoleServiceImpl sysRoleService;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
 
     /**
      * 获得用户列表
@@ -55,7 +54,7 @@ public class SysUserController {
      */
     @ApiOperation(value = "用户列表")
     @RequestMapping(value = "/list", method = RequestMethod.GET)
-    @PreAuthorize("hasAuthority('system:user:list')")
+    @SaCheckPermission("system:user:list")
     public Result list(@RequestParam(value = "current", defaultValue = "1") Integer current,
                        @RequestParam(value = "size", defaultValue = "10") Integer size,
                        @RequestParam(value = "username", defaultValue = "") String username) {
@@ -83,7 +82,7 @@ public class SysUserController {
      */
     @ApiOperation(value = "单条用户信息")
     @RequestMapping(value = "/info/{id}", method = RequestMethod.GET)
-    @PreAuthorize("hasAuthority('system:user:list')")
+    @SaCheckPermission("system:user:list")
     public Result info(@PathVariable(value = "id") Long id) {
         SysUser result = sysUserService.getById(id);
         List<SysRole> sysRoles = sysRoleService.getSysRoleListByUserId(id);
@@ -96,14 +95,13 @@ public class SysUserController {
     /**
      * 新增一条用户信息
      * @param sysUser 用户实体
-     * @return
+     * @return Result
      */
+    @ApiOperation(value = "新增用户")
     @RequestMapping(value = "/save", method = RequestMethod.POST)
-    @PreAuthorize("hasAuthority('system:user:save')")
+    @SaCheckPermission("system:user:save")
     public Result save(@RequestBody SysUser sysUser) {
-        // 设置用户的默认密码
-        String encode = passwordEncoder.encode(CommonConst.USER_PASSWORD);
-        sysUser.setPassword(encode);
+        sysUser.setPassword(SaSecureUtil.md5(CommonConst.USER_PASSWORD));
         // 设置默认头像
         sysUser.setAvatar("https://cdn.lixingyong.com/2021/01/15/QQ20210115152209.jpg");
         boolean result = sysUserService.save(sysUser);
@@ -121,12 +119,10 @@ public class SysUserController {
      */
     @ApiOperation(value = "修改用户信息")
     @RequestMapping(value = "/update", method = RequestMethod.POST)
-    @PreAuthorize("hasAuthority('system:user:update')")
+    @SaCheckPermission("system:user:update")
     public Result update(@RequestBody SysUser sysUser) {
         boolean result = sysUserService.updateById(sysUser);
         if (result) {
-            // 清除缓存
-            sysUserService.clearUserAuthorityInfo(sysUser.getUsername());
             return Result.success();
         } else {
             return Result.failed();
@@ -140,15 +136,18 @@ public class SysUserController {
      */
     @ApiOperation(value = "删除用户信息")
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
-    @PreAuthorize("hasAuthority('system:user:delete')")
+    @SaCheckPermission("system:user:delete")
     @Transactional
     public Result deleteByIds(@RequestBody Long[] ids) {
-        // 清除缓存
         List<SysUser> sysUsers = sysUserService.listByIds(Arrays.asList(ids));
         sysUsers.forEach(sysUser -> {
+            // 清除缓存
+            SaSession session = StpUtil.getSessionByLoginId(sysUser.getUserId(), false);
+            if (session != null) {
+                session.delete("Role_List");
+            }
             // 删除中间表
             sysUserRoleService.remove(new QueryWrapper<SysUserRole>().eq("user_id", sysUser.getUserId()));
-            sysUserService.clearUserAuthorityInfo(sysUser.getUsername());
         });
         boolean result = sysUserService.removeByIds(Arrays.asList(ids));
         if (result) {
@@ -164,9 +163,9 @@ public class SysUserController {
      * @param roleIds 角色ids
      * @return Result
      */
-    @ApiOperation(value = "SysUserRole中间表")
+    @ApiOperation(value = "分配角色")
     @RequestMapping(value = "/role/{id}", method = RequestMethod.POST)
-    @PreAuthorize("hasAuthority('system:user:save')")
+    @SaCheckPermission("system:user:role")
     public Result roleChange(@PathVariable(value = "id") Long id, @RequestBody Long[] roleIds) {
         List<SysUserRole> sysUserRoles = new ArrayList<>();
 
@@ -177,15 +176,19 @@ public class SysUserController {
             sysUserRoles.add(sysUserRole);
         });
 
+        // 清除缓存
+        SysUser sysUser = sysUserService.getById(id);
+        SaSession session = StpUtil.getSessionByLoginId(sysUser.getUserId(), false);
+        if (session != null) {
+            session.delete("Role_List");
+        }
+
         // 删除之前的记录
         sysUserRoleService.remove(new QueryWrapper<SysUserRole>().eq("user_id", id));
 
         // 添加记录
         sysUserRoleService.saveBatch(sysUserRoles);
 
-        // 删除缓存
-        SysUser sysUser = sysUserService.getById(id);
-        sysUserService.clearUserAuthorityInfo(sysUser.getUsername());
 
         return Result.success();
     }
@@ -197,12 +200,14 @@ public class SysUserController {
      */
     @ApiOperation(value = "重置密码")
     @RequestMapping(value = "/repass/{id}", method = RequestMethod.POST)
-    @PreAuthorize("hasAuthority('system:user:save')")
+    @SaCheckPermission("system:user:repass")
     public Result repass(@PathVariable(value = "id") Long id) {
         SysUser sysUser = sysUserService.getById(id);
-        String encode = passwordEncoder.encode(CommonConst.USER_PASSWORD);
+        String encode = SaSecureUtil.md5(CommonConst.USER_PASSWORD);
         sysUser.setPassword(encode);
         sysUserService.updateById(sysUser);
+        // 重置密码后，直接下线
+        StpUtil.logout(id);
         return Result.success();
     }
 

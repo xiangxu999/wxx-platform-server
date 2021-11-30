@@ -1,13 +1,12 @@
 package com.xu.wxxplatformserver.service.impl;
 
-import cn.hutool.core.util.ArrayUtil;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.xu.wxxplatformserver.pojo.SysMenu;
 import com.xu.wxxplatformserver.mapper.SysMenuMapper;
 import com.xu.wxxplatformserver.pojo.SysUser;
 import com.xu.wxxplatformserver.service.ISysMenuService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -25,9 +24,6 @@ import java.util.List;
 public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> implements ISysMenuService {
 
     @Autowired
-    private SysUserServiceImpl sysUserService;
-
-    @Autowired
     private SysMenuMapper sysMenuMapper;
 
     @Override
@@ -37,6 +33,11 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
         List<SysMenu> menuTree = buildTreeMenu(sysMenus);
 
         return menuTree;
+    }
+
+    @Override
+    public List<SysMenu> getSysMenuListByRoleId(Long roleId) {
+        return list(new QueryWrapper<SysMenu>().inSql("menu_id", "SELECT menu_id FROM sys_role_menu  WHERE role_id = " + roleId));
     }
 
     public List<SysMenu> buildTreeMenu(List<SysMenu> menus) {

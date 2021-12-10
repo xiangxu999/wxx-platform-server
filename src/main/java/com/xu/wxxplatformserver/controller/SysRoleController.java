@@ -15,6 +15,7 @@ import com.xu.wxxplatformserver.service.impl.SysRoleMenuServiceImpl;
 import com.xu.wxxplatformserver.service.impl.SysRoleServiceImpl;
 import com.xu.wxxplatformserver.service.impl.SysUserRoleServiceImpl;
 import com.xu.wxxplatformserver.service.impl.SysUserServiceImpl;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,6 +34,7 @@ import java.util.stream.Collectors;
  * @author 旭日
  * @since 2021-11-08
  */
+@Api(tags = "系统角色")
 @RestController
 @RequestMapping("/system/role")
 public class SysRoleController {

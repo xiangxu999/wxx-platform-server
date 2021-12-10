@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
  *
  * @author Wen
  */
-@Api(tags = "UserController")
+@Api(tags = "登录相关")
 @RestController
 @RequestMapping(value = "/user")
 public class UserController {

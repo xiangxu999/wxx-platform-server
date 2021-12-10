@@ -11,6 +11,7 @@ import com.xu.wxxplatformserver.pojo.SysMenu;
 import com.xu.wxxplatformserver.pojo.SysRoleMenu;
 import com.xu.wxxplatformserver.service.impl.SysMenuServiceImpl;
 import com.xu.wxxplatformserver.service.impl.SysRoleMenuServiceImpl;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,6 +28,7 @@ import java.util.stream.Collectors;
  * @author 旭日
  * @since 2021-11-08
  */
+@Api(tags = "系统菜单")
 @RestController
 @RequestMapping("/system/menu")
 public class SysMenuController {

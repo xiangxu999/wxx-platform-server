@@ -2,6 +2,13 @@
 
 个人工作台-后端
 不断完善的一个后台管理系统，希望自己不断进步，记录自己的成长
+[个人工作平台-前端](https://github.com/xiangxu999/wxx-platform-web)
+
+## 相关技术
+
+权限模板：[Sa-Token](https://sa-token.dev33.cn/)
+
+慢慢完善文档...
 
 ## 更新记录
 

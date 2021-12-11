@@ -1,6 +1,6 @@
 # wxx-platform-server
 
-个人工作台-后端
+个人工作平台-后端
 不断完善的一个后台管理系统，希望自己不断进步，记录自己的成长
 
 [个人工作平台-前端](https://github.com/xiangxu999/wxx-platform-web)

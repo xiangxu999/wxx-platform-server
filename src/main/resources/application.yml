@@ -61,6 +61,25 @@ spring:
         max-idle: 10
         # 连接池中的最小空闲连接
         min-idle: 0
+  # 邮箱
+  mail:
+    # SMTP address
+    host: smtp.qq.com
+    # SMTP port
+    port: 465
+    # 用户名
+    username: 846212939@qq.com
+    # 授权码
+    password: xdcqjtxybnerbcai
+    protocol: smtp
+    test-connection: true
+    default-encoding: UTF-8
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.starttls.enable: true
+      mail.smtp.starttls.required: true
+      mail.smtp.ssl.enable: true
+      mail.display.sendmail: wxx-platform
 # Sa-Token配置
 sa-token:
   # token名称 (同时也是cookie名称)

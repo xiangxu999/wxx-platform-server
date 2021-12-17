@@ -9,6 +9,8 @@
 
 权限模板：[Sa-Token](https://sa-token.dev33.cn/)
 
+技术点：SpringBoot、SaToken、JWT、MyBatisPlus、Druid
+
 慢慢完善文档...
 
 ## 更新记录

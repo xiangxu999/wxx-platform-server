@@ -3,6 +3,7 @@ package com.xu.wxxplatformserver.service.impl;
 import cn.dev33.satoken.secure.SaSecureUtil;
 import cn.dev33.satoken.stp.SaTokenInfo;
 import cn.dev33.satoken.stp.StpUtil;
+import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.StrUtil;
 import com.xu.wxxplatformserver.common.Result;
@@ -14,6 +15,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -48,8 +51,11 @@ public class UserServiceImpl implements UserService {
         if (checkUser == null) {
             return null;
         }
-        if (StrUtil.equals(checkUser.getPassword(), SaSecureUtil.md5(password))) {
+        if (StrUtil.equals(checkUser.getPassword(), password)) {
             StpUtil.login(checkUser.getUserId());
+            // 记录登录的时间（无论成功或者失败）
+            checkUser.setLastLogin(LocalDateTime.parse(DateUtil.now(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+            sysUserService.updateById(checkUser);
             return StpUtil.getTokenInfo();
         } else {
             return null;

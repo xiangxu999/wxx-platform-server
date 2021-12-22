@@ -1,7 +1,7 @@
 package com.xu.wxxplatformserver.common;
 
 /**
- * Description 通过返回类
+ * Description 公用返回类
  * Date 2021/11/9 15:39
  * Version 1.0.1
  *

@@ -30,9 +30,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     public List<SysMenu> getCurrentUserNav(SysUser sysUser) {
         List<SysMenu> sysMenus = getSysMenuListByUserId(sysUser.getUserId());
         // 把菜单集合转换为树形结构
-        List<SysMenu> menuTree = buildTreeMenu(sysMenus);
-
-        return menuTree;
+        return buildTreeMenu(sysMenus);
     }
 
     @Override
@@ -62,9 +60,9 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 
     @Override
     public List<SysMenu> getSysMenuListByUserId(Long userId) {
-        List<Long> sysMenuIds = sysMenuMapper.getSysMenuIdsByUserId(userId);
-        if (sysMenuIds.size() > 0) {
-            return listByIds(sysMenuIds);
+        List<SysMenu> sysMenuList = sysMenuMapper.getSysMenuIdsByUserId(userId);
+        if (sysMenuList.size() > 0) {
+            return sysMenuList;
         } else {
             return new ArrayList<>();
         }

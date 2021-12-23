@@ -13,6 +13,7 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 @Component
+@SuppressWarnings({"unchecked", "all"})
 public class RedisUtil {
 
     @Autowired
@@ -78,7 +79,7 @@ public class RedisUtil {
         }
     }
 
-    //============================String=============================  
+    //============================String=============================
 
     /**
      * 普通缓存获取
@@ -131,6 +132,29 @@ public class RedisUtil {
     }
 
     /**
+     * 普通缓存放入并设置时间
+     *
+     * @param key      键
+     * @param value    值
+     * @param time     时间
+     * @param timeUnit 类型
+     * @return true成功 false 失败
+     */
+    public boolean set(String key, Object value, long time, TimeUnit timeUnit) {
+        try {
+            if (time > 0) {
+                redisTemplate.opsForValue().set(key, value, time, timeUnit);
+            } else {
+                set(key, value);
+            }
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    /**
      * 递增
      *
      * @param key 键
@@ -158,7 +182,7 @@ public class RedisUtil {
         return redisTemplate.opsForValue().increment(key, -delta);
     }
 
-    //================================Map=================================  
+    //================================Map=================================
 
     /**
      * HashGet
@@ -304,7 +328,7 @@ public class RedisUtil {
         return redisTemplate.opsForHash().increment(key, item, -by);
     }
 
-    //============================set=============================  
+    //============================set=============================
 
     /**
      * 根据key获取Set中的所有值
@@ -403,7 +427,7 @@ public class RedisUtil {
             return 0;
         }
     }
-    //===============================list=================================  
+    //===============================list=================================
 
     /**
      * 获取list缓存的内容

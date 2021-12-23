@@ -122,4 +122,28 @@ aj:
     water-mark: 旭日
     jigsaw: classpath:images/jigsaw
     pic-click: classpath:images/pic-click
+# 普通验证码
+login:
+  captcha:
+      # 是否启用验证码
+      enabled: true
+      # 验证码 key
+      code-key: code-key-
+      #  验证码类型配置 查看 LoginCodeEnum 类
+      code-type: arithmetic
+      #  登录图形验证码有效时间/分钟
+      expiration: 2
+      #  验证码高度
+      width: 111
+      #  验证码宽度
+      height: 36
+      # 内容长度
+      length: 4
+      # 字体名称，为空则使用默认字体
+      font-name:
+      # 字体大小
+      font-size: 25
+
+
+
 

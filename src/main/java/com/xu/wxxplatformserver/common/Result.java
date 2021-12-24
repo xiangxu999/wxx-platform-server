@@ -1,5 +1,7 @@
 package com.xu.wxxplatformserver.common;
 
+import io.swagger.annotations.ApiModelProperty;
+
 /**
  * Description 公用返回类
  * Date 2021/11/9 15:39
@@ -8,8 +10,11 @@ package com.xu.wxxplatformserver.common;
  * @author Wen
  */
 public class Result<T> {
+    @ApiModelProperty(value = "状态码")
     private long code;
+    @ApiModelProperty(value = "消息")
     private String message;
+    @ApiModelProperty(value = "数据")
     private T data;
 
     protected Result() {

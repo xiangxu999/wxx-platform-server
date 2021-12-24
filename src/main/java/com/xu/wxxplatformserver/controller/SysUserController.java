@@ -18,6 +18,7 @@ import com.xu.wxxplatformserver.service.impl.SysRoleServiceImpl;
 import com.xu.wxxplatformserver.service.impl.SysUserRoleServiceImpl;
 import com.xu.wxxplatformserver.service.impl.SysUserServiceImpl;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -86,6 +87,7 @@ public class SysUserController {
      * @return Reuslt
      */
     @ApiOperation(value = "单条用户信息")
+    @ApiImplicitParam(name = "id", value = "用户id")
     @RequestMapping(value = "/info/{id}", method = RequestMethod.GET)
     @SaCheckPermission("system:user:list")
     public Result info(@PathVariable(value = "id") Long id) {
@@ -169,6 +171,7 @@ public class SysUserController {
      * @return Result
      */
     @ApiOperation(value = "分配角色")
+    @ApiImplicitParam(name = "id", value = "角色id")
     @RequestMapping(value = "/role/{id}", method = RequestMethod.POST)
     @SaCheckPermission("system:user:role")
     public Result roleChange(@PathVariable(value = "id") Long id, @RequestBody Long[] roleIds) {
@@ -204,6 +207,7 @@ public class SysUserController {
      * @return Result
      */
     @ApiOperation(value = "重置密码")
+    @ApiImplicitParam(name = "id", value = "用户id")
     @RequestMapping(value = "/repass/{id}", method = RequestMethod.POST)
     @SaCheckPermission("system:user:repass")
     public Result repass(@PathVariable(value = "id") Long id) {

@@ -16,6 +16,8 @@ import com.xu.wxxplatformserver.service.impl.SysRoleServiceImpl;
 import com.xu.wxxplatformserver.service.impl.SysUserRoleServiceImpl;
 import com.xu.wxxplatformserver.service.impl.SysUserServiceImpl;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -56,6 +58,11 @@ public class SysRoleController {
      * @return Result
      */
     @ApiOperation(value = "角色列表")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "current", value = "当前页"),
+            @ApiImplicitParam(name = "size", value = "每页数量"),
+            @ApiImplicitParam(name = "name", value = "角色名")
+    })
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     @SaCheckPermission("system:role:list")
     public Result list(@RequestParam(value = "current", defaultValue = "1") Integer current,
@@ -77,6 +84,7 @@ public class SysRoleController {
      * @return Reuslt
      */
     @ApiOperation(value = "单条角色信息")
+    @ApiImplicitParam(name = "id", value = "角色id")
     @RequestMapping(value = "/info/{id}", method = RequestMethod.GET)
     @SaCheckPermission("system:role:list")
     public Result info(@PathVariable(value = "id") Long id) {
@@ -124,6 +132,7 @@ public class SysRoleController {
      * @return Result
      */
     @ApiOperation(value = "删除用户角色")
+    @ApiImplicitParam(name = "ids", value = "角色ids")
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     @Transactional
     @SaCheckPermission("system:role:delete")
@@ -154,6 +163,7 @@ public class SysRoleController {
      * @return Result
      */
     @ApiOperation(value = "根据角色获得对应的菜单")
+    @ApiImplicitParam(name = "id", value = "角色id")
     @RequestMapping(value = "/perm/{id}", method = RequestMethod.GET)
     @SaCheckPermission("system:role:list")
     public Result perm(@PathVariable(value = "id") Long id) {
@@ -171,6 +181,7 @@ public class SysRoleController {
      * @return Result
      */
     @ApiOperation(value = "给角色分配权限")
+    @ApiImplicitParam(name = "id", value = "角色id")
     @RequestMapping(value = "/perm/{id}", method = RequestMethod.POST)
     @SaCheckPermission("system:role:perm")
     public Result submit(@PathVariable(value = "id") Long id, @RequestBody Long[] menuIds) {

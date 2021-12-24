@@ -12,6 +12,7 @@ import com.xu.wxxplatformserver.pojo.SysRoleMenu;
 import com.xu.wxxplatformserver.service.impl.SysMenuServiceImpl;
 import com.xu.wxxplatformserver.service.impl.SysRoleMenuServiceImpl;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -45,6 +46,7 @@ public class SysMenuController {
      * @return Result
      */
     @ApiOperation(value = "菜单列表")
+    @ApiImplicitParam(name = "name", value = "菜单名")
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     @SaCheckPermission("system:menu:list")
     public Result list(@RequestParam(value = "name", defaultValue = "") String name) {
@@ -61,6 +63,7 @@ public class SysMenuController {
      * @return Reuslt
      */
     @ApiOperation(value = "单条菜单信息")
+    @ApiImplicitParam(name = "id", value = "菜单id")
     @RequestMapping(value = "/info/{id}", method = RequestMethod.GET)
     @SaCheckPermission("system:menu:list")
     public Result info(@PathVariable(value = "id") Long id) {
@@ -121,6 +124,7 @@ public class SysMenuController {
      * @return Result
      */
     @ApiOperation(value = "删除菜单")
+    @ApiImplicitParam(name = "id", value = "菜单id")
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
     @Transactional
     @SaCheckPermission("system:menu:delete")

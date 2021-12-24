@@ -28,7 +28,7 @@ public class CaptchaUtil {
      *
      * @return /
      */
-    public Captcha getCaptcha() {
+    public  Captcha getCaptcha() {
         return switchCaptcha(captchaProperties);
     }
 
@@ -38,7 +38,7 @@ public class CaptchaUtil {
      * @param captchaProperties 验证码配置信息
      * @return /
      */
-    private Captcha switchCaptcha(CaptchaProperties captchaProperties) {
+    public Captcha switchCaptcha(CaptchaProperties captchaProperties) {
         Captcha captcha;
         synchronized (this) {
             switch (captchaProperties.getCodeType()) {

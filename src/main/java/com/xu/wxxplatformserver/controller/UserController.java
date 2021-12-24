@@ -5,6 +5,7 @@ import cn.dev33.satoken.stp.SaTokenInfo;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
 import com.wf.captcha.base.Captcha;
+import com.xu.wxxplatformserver.annotation.Log;
 import com.xu.wxxplatformserver.common.LoginCodeEnum;
 import com.xu.wxxplatformserver.common.Result;
 import com.xu.wxxplatformserver.exception.BadRequestException;
@@ -49,6 +50,7 @@ public class UserController {
     private CaptchaUtil captchaUtil;
 
     @ApiOperation(value = "登录")
+    @Log(value = "登录操作")
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public Result login(@RequestBody @Validated UserDto userDto) {
         // 开启验证码

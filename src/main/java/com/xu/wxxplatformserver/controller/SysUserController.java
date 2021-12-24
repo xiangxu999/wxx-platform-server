@@ -9,6 +9,7 @@ import cn.hutool.core.date.DateUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.xu.wxxplatformserver.annotation.Log;
 import com.xu.wxxplatformserver.common.Result;
 import com.xu.wxxplatformserver.consts.CommonConst;
 import com.xu.wxxplatformserver.pojo.SysRole;
@@ -206,6 +207,7 @@ public class SysUserController {
      * @param id 用户id
      * @return Result
      */
+    @Log("重置密码操作")
     @ApiOperation(value = "重置密码")
     @ApiImplicitParam(name = "id", value = "用户id")
     @RequestMapping(value = "/repass/{id}", method = RequestMethod.POST)

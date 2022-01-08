@@ -1,15 +1,7 @@
 package com.xu.wxxplatformserver.controller;
 
-import com.xu.wxxplatformserver.common.Result;
-import com.xu.wxxplatformserver.service.MailService;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -24,29 +16,29 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = "/system/mail")
 public class MailController {
 
-    @Autowired
-    private MailService mailService;
-
-    /**
-     * 发送普通邮件
-     * @param to 收件人地址
-     * @param subject 邮件主题
-     * @param content 邮件内容
-     * @return
-     */
-    @ApiOperation(value = "发送普通邮件")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "to", value = "发送地址"),
-            @ApiImplicitParam(name = "subject", value = "邮件主题"),
-            @ApiImplicitParam(name = "content", value = "邮件内容")
-    })
-    @RequestMapping(value = "/simple", method = RequestMethod.POST)
-    public Result sendSimpleMail(@RequestParam(value = "to")  String to,
-                                 @RequestParam(value = "subject") String subject,
-                                 @RequestParam(value = "content") String content) {
-        mailService.sendSimpleMail(to,subject,content);
-        return Result.success("邮件发送成功");
-    }
+    //@Autowired
+    //private MailService mailService;
+    //
+    ///**
+    // * 发送普通邮件
+    // * @param to 收件人地址
+    // * @param subject 邮件主题
+    // * @param content 邮件内容
+    // * @return
+    // */
+    //@ApiOperation(value = "发送普通邮件")
+    //@ApiImplicitParams({
+    //        @ApiImplicitParam(name = "to", value = "发送地址"),
+    //        @ApiImplicitParam(name = "subject", value = "邮件主题"),
+    //        @ApiImplicitParam(name = "content", value = "邮件内容")
+    //})
+    //@RequestMapping(value = "/simple", method = RequestMethod.POST)
+    //public Result sendSimpleMail(@RequestParam(value = "to")  String to,
+    //                             @RequestParam(value = "subject") String subject,
+    //                             @RequestParam(value = "content") String content) {
+    //    mailService.sendSimpleMail(to,subject,content);
+    //    return Result.success("邮件发送成功");
+    //}
 
 
 }

@@ -143,7 +143,43 @@ login:
       font-name:
       # 字体大小
       font-size: 25
-
+# knife4j文档
+knife4j:
+  enable: true
+#  documents:
+#    -
+#      group: 2.X版本
+#      name: 接口签名
+#      locations: classpath:sign/*
+  setting:
+    language: zh-CN
+    enableSwaggerModels: true
+    enableDocumentManage: true
+    swaggerModelName: 实体类列表
+    enableVersion: false
+    enableReloadCacheParameter: false
+    enableAfterScript: true
+    enableFilterMultipartApiMethodType: POST
+    enableFilterMultipartApis: false
+    enableRequestCache: true
+    enableHost: false
+    enableHostText: 192.168.0.193:8000
+    enableHomeCustom: false
+    homeCustomLocation: classpath:markdown/home.md
+    enableSearch: true
+    enableFooter: false
+    enableFooterCustom: true
+    footerCustomContent: Apache License 2.0 | Copyright 2021-[旭日](https://www.xiangxu999.com)
+    enableDynamicParameter: false
+    enableDebug: true
+    enableOpenApi: false
+    enableGroup: true
+  cors: false
+  production: false
+  basic:
+    enable: true
+    username: wxx
+    password: wen.19981024sh
 
 
 

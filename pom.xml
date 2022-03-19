@@ -20,6 +20,10 @@
 
     <modules>
         <module>wxx-platform-system</module>
+        <module>wxx-platform-common</module>
+        <module>wxx-platform-logging</module>
+        <module>wxx-platform-generator</module>
+        <module>wxx-platform-tools</module>
     </modules>
 
     <dependencies>

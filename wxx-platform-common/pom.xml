@@ -12,4 +12,18 @@
     <artifactId>wxx-platform-common</artifactId>
     <name>公用模块</name>
 
+    <properties>
+        <hutool.version>5.3.4</hutool.version>
+    </properties>
+
+
+    <dependencies>
+        <!--hutool工具类-->
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+            <version>${hutool.version}</version>
+        </dependency>
+    </dependencies>
+
 </project>

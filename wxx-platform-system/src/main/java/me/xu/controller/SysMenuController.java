@@ -129,7 +129,7 @@ public class SysMenuController {
     @Transactional
     @SaCheckPermission("system:menu:delete")
     public Result delete(@PathVariable(value = "id") Long id) {
-        int count = sysMenuService.count(new QueryWrapper<SysMenu>().eq("pid",id));
+        int count = (int) sysMenuService.count(new QueryWrapper<SysMenu>().eq("pid",id));
         if (count > 0) {
             return Result.failed("请先删除子菜单");
         }

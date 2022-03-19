@@ -166,18 +166,10 @@
             <version>${druid.version}</version>
         </dependency>
 
-
         <!-- websocket -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-websocket</artifactId>
-        </dependency>
-
-        <!-- oshi -->
-        <dependency>
-            <groupId>com.github.oshi</groupId>
-            <artifactId>oshi-core</artifactId>
-            <version>5.8.0</version>
         </dependency>
 
         <dependency>

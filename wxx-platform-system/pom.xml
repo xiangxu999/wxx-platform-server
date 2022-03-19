@@ -12,4 +12,18 @@
     <artifactId>wxx-platform-system</artifactId>
     <name>核心模块</name>
 
+    <dependencies>
+        <!-- 获取系统信息 -->
+        <dependency>
+            <groupId>com.github.oshi</groupId>
+            <artifactId>oshi-core</artifactId>
+            <version>5.8.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>me.xu</groupId>
+            <artifactId>wxx-platform-logging</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
 </project>

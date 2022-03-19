@@ -18,7 +18,6 @@ public class RequestHolder {
     public static HttpServletRequest getHttpServletRequest() {
         // 得到request
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-        HttpServletRequest request = Objects.requireNonNull(attributes).getRequest();
-        return request;
+        return Objects.requireNonNull(attributes).getRequest();
     }
 }

@@ -12,4 +12,11 @@
     <artifactId>wxx-platform-tools</artifactId>
     <name>工具模块</name>
 
+    <dependencies>
+        <dependency>
+            <groupId>me.xu</groupId>
+            <artifactId>wxx-platform-logging</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
 </project>

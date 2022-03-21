@@ -27,11 +27,10 @@
     <properties>
         <java.version>1.8</java.version>
         <mybatis-plus.version>3.5.1</mybatis-plus.version>
-        <mybatis-puls-generator.version>3.5.2</mybatis-puls-generator.version>
+        <mybatis-puls-generator.version>3.5.0</mybatis-puls-generator.version>
         <knife4j.version>3.0.3</knife4j.version>
         <commons-pool2.version>2.5.0</commons-pool2.version>
         <commons-lang3.version>3.11</commons-lang3.version>
-        <sa-token.version>1.28.0</sa-token.version>
         <druid.version>1.2.8</druid.version>
         <fastjson.version>1.2.70</fastjson.version>
     </properties>
@@ -125,17 +124,17 @@
         <dependency>
             <groupId>cn.dev33</groupId>
             <artifactId>sa-token-spring-boot-starter</artifactId>
-            <version>${sa-token.version}</version>
+            <version>1.29.0</version>
         </dependency>
         <dependency>
             <groupId>cn.dev33</groupId>
             <artifactId>sa-token-dao-redis-jackson</artifactId>
-            <version>${sa-token.version}</version>
+            <version>1.29.0</version>
         </dependency>
         <dependency>
             <groupId>cn.dev33</groupId>
             <artifactId>sa-token-jwt</artifactId>
-            <version>${sa-token.version}</version>
+            <version>1.29.0</version>
         </dependency>
 
         <!-- fastjson -->

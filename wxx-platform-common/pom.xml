@@ -13,7 +13,7 @@
     <name>公用模块</name>
 
     <properties>
-        <hutool.version>5.3.4</hutool.version>
+        <hutool.version>5.7.20</hutool.version>
     </properties>
 
 

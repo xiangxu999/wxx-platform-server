@@ -12,4 +12,11 @@
     <artifactId>wxx-platform-logging</artifactId>
     <name>日志模块</name>
 
+    <dependencies>
+        <dependency>
+            <groupId>me.xu</groupId>
+            <artifactId>wxx-platform-common</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
 </project>

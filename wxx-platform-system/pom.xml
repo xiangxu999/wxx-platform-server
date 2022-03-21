@@ -20,9 +20,24 @@
             <version>5.8.0</version>
         </dependency>
 
+        <!--工具模块-->
         <dependency>
             <groupId>me.xu</groupId>
-            <artifactId>wxx-platform-logging</artifactId>
+            <artifactId>wxx-platform-tools</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+
+        <!--公有模块-->
+        <dependency>
+            <groupId>me.xu</groupId>
+            <artifactId>wxx-platform-common</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+
+        <!--代码生成模块-->
+        <dependency>
+            <groupId>me.xu</groupId>
+            <artifactId>wxx-platform-generator</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
     </dependencies>

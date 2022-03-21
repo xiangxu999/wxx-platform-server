@@ -99,7 +99,7 @@ sa-token:
   # 是否输出画
   is-print: false
   # jwt秘钥
-  jwt-secret-key: U2FsdGVkX18NzqGeVpkb89hHM5H4dsa78HZrhOWkRg==
+  jwt-secret-key: U2FsdGVkX18NzqGeVpkb89hHM5H4dsa78HZrhOWkRgXX
   # 是否开启cookie模式
   is-read-cookie: false
 # 行为验证码

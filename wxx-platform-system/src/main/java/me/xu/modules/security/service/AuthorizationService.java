@@ -44,7 +44,7 @@ public interface AuthorizationService {
      *
      * @return Result
      */
-    Result logout();
+    void logout();
 
 
     /**

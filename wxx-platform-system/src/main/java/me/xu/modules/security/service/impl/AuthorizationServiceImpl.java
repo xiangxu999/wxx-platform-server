@@ -104,13 +104,8 @@ public class AuthorizationServiceImpl implements AuthorizationService {
     }
 
     @Override
-    public Result logout() {
-        if (StpUtil.isLogin()) {
-            StpUtil.logout();
-            return Result.success("退出成功");
-        } else {
-            return Result.failed("退出失败");
-        }
+    public void logout() {
+        StpUtil.logout();
     }
 
     @Override

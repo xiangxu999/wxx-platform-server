@@ -53,7 +53,7 @@ public class AuthorizationController {
     @ApiOperation(value = "退出登录")
     @RequestMapping(value = "/logout", method = RequestMethod.POST)
     @SaCheckLogin
-    public Result logout() {
-        return authorizationService.logout();
+    public void logout() {
+        authorizationService.logout();
     }
 }

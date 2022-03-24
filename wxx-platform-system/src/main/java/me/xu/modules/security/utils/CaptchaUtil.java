@@ -3,8 +3,8 @@ package me.xu.modules.security.utils;
 import cn.hutool.core.util.StrUtil;
 import com.wf.captcha.*;
 import com.wf.captcha.base.Captcha;
-import me.xu.modules.security.common.LoginCodeEnum;
-import me.xu.exception.BadConfigurationException;
+import me.xu.common.ResultCode;
+import me.xu.exception.ResultException;
 import me.xu.modules.security.config.CaptchaProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -66,7 +66,8 @@ public class CaptchaUtil {
                     captcha.setLen(captchaProperties.getLength());
                     break;
                 default:
-                    throw new BadConfigurationException("验证码配置信息错误！");
+                    // 验证码配置信息错误
+                    throw new ResultException(ResultCode.CODE_CONFIG_ERROR);
             }
         }
         if(StrUtil.isNotBlank(captchaProperties.getFontName())){

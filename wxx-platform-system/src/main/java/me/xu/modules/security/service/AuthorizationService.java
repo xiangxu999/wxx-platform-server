@@ -1,7 +1,7 @@
 package me.xu.modules.security.service;
 
-import cn.dev33.satoken.stp.SaTokenInfo;
 import me.xu.common.Result;
+import me.xu.modules.security.service.dto.UserDto;
 import me.xu.modules.system.pojo.SysUser;
 
 
@@ -12,7 +12,7 @@ import me.xu.modules.system.pojo.SysUser;
  *
  * @author Wen
  */
-public interface UserService {
+public interface AuthorizationService {
 
     /**
      * 注册功能
@@ -23,11 +23,10 @@ public interface UserService {
 
     /**
      * 登录功能
-     * @param username 用户名
-     * @param password 密码
-     * @return SaTokenInfo
+     * @param userDto 登录表单
+     * @return Result
      */
-    SaTokenInfo login(String username, String password);
+    Result login(UserDto userDto);
 
     /**
      * 得到当前用户一些基础信息
@@ -41,4 +40,13 @@ public interface UserService {
      * @return Result
      */
     Result logout();
+
+
+    /**
+     * 获取验证码
+     * @return Result
+     */
+    Result getCode();
+
+
 }

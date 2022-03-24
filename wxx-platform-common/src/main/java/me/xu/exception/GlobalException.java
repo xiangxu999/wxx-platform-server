@@ -8,51 +8,53 @@ package me.xu.exception;
  * @author Wen
  */
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import me.xu.common.Result;
-import org.springframework.web.bind.annotation.ControllerAdvice;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseBody;
-
-
-
 import cn.dev33.satoken.exception.NotLoginException;
 import cn.dev33.satoken.exception.NotPermissionException;
 import cn.dev33.satoken.exception.NotRoleException;
+import me.xu.common.Result;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-@ControllerAdvice
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+@RestControllerAdvice
 public class GlobalException {
 
-    @ResponseBody
     @ExceptionHandler
     public Result handlerException(Exception e, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         // 不同异常返回不同状态码
         Result result = null;
-        // 如果是未登录异常
+        // 未登录异常
         if (e instanceof NotLoginException) {
-            NotLoginException ee = (NotLoginException) e;
             result = Result.unauthorized();
         }
-        // 如果是角色异常
-        else if(e instanceof NotRoleException) {
-            NotRoleException ee = (NotRoleException) e;
+        // 角色异常
+        else if (e instanceof NotRoleException) {
             result = Result.forbidden();
         }
-        // 如果是权限异常
-        else if(e instanceof NotPermissionException) {
-            NotPermissionException ee = (NotPermissionException) e;
+        // 权限异常
+        else if (e instanceof NotPermissionException) {
             result = Result.forbidden();
         }
-        //// 如果是被封禁异常 后续实现
+        //// 封禁异常 后续实现
         //else if(e instanceof DisableLoginException) {
         //    DisableLoginException ee = (DisableLoginException) e;
         //}
+        // 参数校验失败
+        else if (e instanceof MethodArgumentNotValidException) {
+            result = Result.validateFailed(e.getMessage());
+        }
+        // 自定义异常
+        else if (e instanceof ResultException) {
+            ResultException ee = (ResultException) e;
+            result = Result.failed(ee.getResultCode());
+        }
         // 普通异常, 输出：500 + 异常信息
         else {
-            result = Result.failed(e.getMessage());
+            result = Result.failed();
         }
         // 返回给前端
         return result;

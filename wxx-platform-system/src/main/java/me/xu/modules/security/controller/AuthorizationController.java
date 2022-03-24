@@ -7,6 +7,7 @@ import me.xu.annotation.Log;
 import me.xu.common.Result;
 import me.xu.modules.security.service.AuthorizationService;
 import me.xu.modules.security.service.dto.UserDto;
+import me.xu.modules.security.service.vo.CodeVO;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -44,7 +45,7 @@ public class AuthorizationController {
 
     @ApiOperation(value = "获取验证码")
     @RequestMapping(value = "/code", method = RequestMethod.GET)
-    public Result getCode() {
+    public CodeVO getCode() {
         return authorizationService.getCode();
     }
 

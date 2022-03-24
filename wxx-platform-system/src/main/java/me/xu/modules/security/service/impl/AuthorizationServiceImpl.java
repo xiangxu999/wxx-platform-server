@@ -16,6 +16,7 @@ import me.xu.modules.security.common.LoginCodeEnum;
 import me.xu.modules.security.config.CaptchaProperties;
 import me.xu.modules.security.service.AuthorizationService;
 import me.xu.modules.security.service.dto.UserDto;
+import me.xu.modules.security.service.vo.CodeVO;
 import me.xu.modules.security.utils.CaptchaUtil;
 import me.xu.modules.system.pojo.SysMenu;
 import me.xu.modules.system.pojo.SysRole;
@@ -29,9 +30,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -115,16 +114,17 @@ public class AuthorizationServiceImpl implements AuthorizationService {
     }
 
     @Override
-    public Result getCode() {
+    public CodeVO getCode() {
+        CodeVO codeVo = new CodeVO();
+        // 未开启验证码
         if (!captchaProperties.getEnabled()) {
             // 验证码信息
-            Map<String, Object> imgResult = new HashMap<String, Object>(2) {{
-                put("enabled", 0);
-            }};
-            return Result.success(imgResult);
+            codeVo.setEnabled(0);
+            return codeVo;
         }
         // 获取运算的结果
         Captcha captcha = captchaUtil.getCaptcha();
+        // 生成验证码uuid
         String uuid = captchaProperties.getCodeKey() + IdUtil.simpleUUID();
         //当验证码类型为 arithmetic时且长度 >= 2 时，captcha.text()的结果有几率为浮点型
         String captchaValue = captcha.text();
@@ -134,12 +134,10 @@ public class AuthorizationServiceImpl implements AuthorizationService {
         // 保存
         redisUtil.set(uuid, captchaValue, captchaProperties.getExpiration(), TimeUnit.MINUTES);
         // 验证码信息
-        Map<String, Object> imgResult = new HashMap<String, Object>(2) {{
-            put("enabled", 1);
-            put("img", captcha.toBase64());
-            put("uuid", uuid);
-        }};
-        return Result.success(imgResult);
+        codeVo.setImg(captcha.toBase64());
+        codeVo.setUuid(uuid);
+        codeVo.setEnabled(1);
+        return codeVo;
     }
 
     @Override

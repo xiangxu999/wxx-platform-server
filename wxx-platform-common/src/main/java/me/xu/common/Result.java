@@ -32,15 +32,24 @@ public class Result<T> {
     }
 
     /**
-     * 成功返回结果（默认提示信息）- 不带数据源
-     *
+     * 默认成功返回结果 - 不带数据源
      */
     public static <T> Result<T> success() {
         return new Result<T>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage());
     }
 
     /**
-     * 成功返回结果（默认提示信息）
+     * 自定义成功返回结果 - 不带数据源
+     *
+     * @param message 提示信息
+     */
+    public static <T> Result<T> success(String message) {
+        return new Result<T>(ResultCode.SUCCESS.getCode(), message);
+    }
+
+
+    /**
+     * 默认成功返回结果 - 带数据源
      *
      * @param data 获取的数据
      */
@@ -49,74 +58,73 @@ public class Result<T> {
     }
 
     /**
-     * 成功返回结果（自定义提示信息）
+     * 自定义成功返回结果 - 带数据源
      *
-     * @param data 获取的数据
-     * @param  message 提示信息
+     * @param data    获取的数据
+     * @param message 提示信息
      */
     public static <T> Result<T> success(T data, String message) {
         return new Result<T>(ResultCode.SUCCESS.getCode(), message, data);
     }
 
     /**
-     * 成功返回结果（自定义提示信息,无返回数据）
      *
-     * @param  message 提示信息
-     */
-    public static <T> Result<T> success(String message) {
-        return new Result<T>(ResultCode.SUCCESS.getCode(), message, null);
-    }
-
-    /**
-     * 失败返回结果 - 公用
-     * @param resultCode 错误码
+     * @param resultCode
+     * @param <T>
+     * @return
      */
     public static <T> Result<T> failed(ResultCode resultCode) {
-        return new Result<T>(resultCode.getCode(), resultCode.getMessage(), null);
+        return new Result<T>(resultCode.getCode(), resultCode.getMessage());
     }
 
     /**
-     * 失败返回结果 （自定义提示信息）
+     * 自定义失败返回结果
+     *
      * @param message 提示信息
      */
     public static <T> Result<T> failed(String message) {
-        return new Result<T>(ResultCode.FAILED.getCode(), message, null);
+        return new Result<T>(ResultCode.FAILED.getCode(), message);
+    }
+
+    public static <T> Result<T> failed(Integer code, String message) {
+        return new Result<T>(code, message);
     }
 
     /**
-     * 失败返回结果
+     * 默认失败返回结果
      */
     public static <T> Result<T> failed() {
         return failed(ResultCode.FAILED);
     }
 
     /**
-     * 参数验证失败返回结果
+     * 默认参数验证失败返回结果
      */
     public static <T> Result<T> validateFailed() {
         return failed(ResultCode.VALIDATE_FAILED);
     }
 
     /**
-     * 参数验证失败返回结果
+     * 自定义参数验证失败返回结果
+     *
      * @param message 提示信息
      */
     public static <T> Result<T> validateFailed(String message) {
-        return new Result<T>(ResultCode.VALIDATE_FAILED.getCode(), message, null);
+        return new Result<T>(ResultCode.VALIDATE_FAILED.getCode(), message);
     }
 
     /**
      * 未登录返回结果
      */
     public static <T> Result<T> unauthorized() {
-        return new Result<T>(ResultCode.UNAUTHORIZED.getCode(), ResultCode.UNAUTHORIZED.getMessage(),null);
+        return new Result<T>(ResultCode.UNAUTHORIZED.getCode(), ResultCode.UNAUTHORIZED.getMessage());
     }
 
     /**
      * 未授权返回结果
      */
     public static <T> Result<T> forbidden() {
-        return new Result<T>(ResultCode.FORBIDDEN.getCode(), ResultCode.FORBIDDEN.getMessage(), null);
+        return new Result<T>(ResultCode.FORBIDDEN.getCode(), ResultCode.FORBIDDEN.getMessage());
     }
 
     public long getCode() {

@@ -35,19 +35,40 @@ public enum ResultCode {
     /**
      * 尚未授权
      */
-    FORBIDDEN(403, "没有相关权限");
+    FORBIDDEN(403, "没有相关权限"),
+
+    /**
+     * 验证码配置信息错误
+     */
+    CODE_CONFIG_ERROR(1001, "验证码配置信息错误"),
+
+    /**
+     * 验证码不存在或已过期
+     */
+    CODE_EXPIRE(1002, "验证码不存在或已过期"),
+
+    /**
+     * 验证码错误
+     */
+    CODE_ERROR(1003, "验证码错误"),
+
+    /**
+     * 账号或密码错误
+     */
+    LOGIN_ERROR(1011, "账号或密码错误");
+
 
     /**
      * 编码
      */
-    long code;
+    final Integer code;
 
     /**
      * 消息
      */
-    String message;
+    final String message;
 
-    ResultCode(long code, String message) {
+    ResultCode(Integer code, String message) {
         this.code = code;
         this.message = message;
     }

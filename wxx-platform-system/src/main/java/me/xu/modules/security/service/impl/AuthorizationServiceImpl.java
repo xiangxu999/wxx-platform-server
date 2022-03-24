@@ -86,7 +86,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
         }
         SysUser checkUser = sysUserService.getByUsername(userDto.getUsername());
         if (checkUser == null) {
-            return null;
+            throw new ResultException(ResultCode.LOGIN_ERROR);
         }
         if (StrUtil.equals(checkUser.getPassword(), userDto.getPassword())) {
             StpUtil.login(checkUser.getUserId());

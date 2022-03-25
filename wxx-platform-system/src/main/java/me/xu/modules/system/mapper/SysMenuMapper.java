@@ -19,7 +19,7 @@ import java.util.List;
 public interface SysMenuMapper extends BaseMapper<SysMenu> {
 
     /**
-     * 根据用户id获得所拥有的菜单Id列表
+     * 根据用户id获得所拥有的菜单列表
      * @param userId 用户id
      * @return 菜单Id列表
      */

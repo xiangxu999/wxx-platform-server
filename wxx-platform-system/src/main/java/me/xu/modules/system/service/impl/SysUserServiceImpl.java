@@ -1,11 +1,12 @@
 package me.xu.modules.system.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import me.xu.modules.system.mapper.SysUserMapper;
 import me.xu.modules.system.pojo.SysRole;
 import me.xu.modules.system.pojo.SysUser;
-import me.xu.modules.system.mapper.SysUserMapper;
-import me.xu.modules.system.service.ISysUserService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import me.xu.modules.system.service.SysRoleService;
+import me.xu.modules.system.service.SysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,13 +22,13 @@ import java.util.stream.Collectors;
  * @since 2021-11-08
  */
 @Service
-public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> implements ISysUserService {
+public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> implements SysUserService {
 
     @Autowired
     private SysUserMapper sysUserMapper;
 
     @Autowired
-    private SysRoleServiceImpl sysRoleService;
+    private SysRoleService sysRoleService;
 
 
     @Override

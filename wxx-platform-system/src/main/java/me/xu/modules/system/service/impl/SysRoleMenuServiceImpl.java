@@ -2,7 +2,7 @@ package me.xu.modules.system.service.impl;
 
 import me.xu.modules.system.pojo.SysRoleMenu;
 import me.xu.modules.system.mapper.SysRoleMenuMapper;
-import me.xu.modules.system.service.ISysRoleMenuService;
+import me.xu.modules.system.service.SysRoleMenuService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +15,6 @@ import org.springframework.stereotype.Service;
  * @since 2021-11-08
  */
 @Service
-public class SysRoleMenuServiceImpl extends ServiceImpl<SysRoleMenuMapper, SysRoleMenu> implements ISysRoleMenuService {
+public class SysRoleMenuServiceImpl extends ServiceImpl<SysRoleMenuMapper, SysRoleMenu> implements SysRoleMenuService {
 
 }

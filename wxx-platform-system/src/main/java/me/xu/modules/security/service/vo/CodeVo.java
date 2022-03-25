@@ -10,7 +10,7 @@ import lombok.Data;
  * @author Wen
  */
 @Data
-public class CodeVO {
+public class CodeVo {
 
     /**
      * 验证码uuid

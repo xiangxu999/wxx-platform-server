@@ -3,9 +3,9 @@ package me.xu.modules.security.service.impl;
 import cn.dev33.satoken.stp.SaTokenInfo;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.date.DateUtil;
-import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.wf.captcha.base.Captcha;
 import lombok.extern.slf4j.Slf4j;
 import me.xu.common.Result;
@@ -16,14 +16,15 @@ import me.xu.modules.security.common.LoginCodeEnum;
 import me.xu.modules.security.config.CaptchaProperties;
 import me.xu.modules.security.service.AuthorizationService;
 import me.xu.modules.security.service.dto.UserDto;
-import me.xu.modules.security.service.vo.CodeVO;
+import me.xu.modules.security.service.vo.CodeVo;
+import me.xu.modules.security.service.vo.UserInfoVo;
 import me.xu.modules.security.utils.CaptchaUtil;
+import me.xu.modules.system.mapper.SysUserMapper;
 import me.xu.modules.system.pojo.SysMenu;
 import me.xu.modules.system.pojo.SysRole;
 import me.xu.modules.system.pojo.SysUser;
-import me.xu.modules.system.service.impl.SysMenuServiceImpl;
-import me.xu.modules.system.service.impl.SysRoleServiceImpl;
-import me.xu.modules.system.service.impl.SysUserServiceImpl;
+import me.xu.modules.system.service.SysMenuService;
+import me.xu.modules.system.service.SysRoleService;
 import me.xu.utils.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -46,13 +47,13 @@ import java.util.stream.Collectors;
 public class AuthorizationServiceImpl implements AuthorizationService {
 
     @Autowired
-    private SysUserServiceImpl sysUserService;
+    private SysUserMapper sysUserMapper;
 
     @Autowired
-    private SysMenuServiceImpl sysMenuService;
+    private SysMenuService sysMenuService;
 
     @Autowired
-    private SysRoleServiceImpl sysRoleService;
+    private SysRoleService sysRoleService;
 
     @Autowired
     private CaptchaProperties captchaProperties;
@@ -62,11 +63,6 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 
     @Autowired
     private RedisUtil redisUtil;
-
-    @Override
-    public SysUser register(SysUser sysUser) {
-        return null;
-    }
 
     @Override
     public Result login(UserDto userDto) {
@@ -84,7 +80,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
                 throw new ResultException(ResultCode.CODE_ERROR);
             }
         }
-        SysUser checkUser = sysUserService.getByUsername(userDto.getUsername());
+        SysUser checkUser = sysUserMapper.selectOne(new QueryWrapper<SysUser>().eq("username", userDto.getUsername()));
         if (checkUser == null) {
             throw new ResultException(ResultCode.LOGIN_ERROR);
         }
@@ -92,7 +88,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
             StpUtil.login(checkUser.getUserId());
             // 记录登录的时间（无论成功或者失败）
             checkUser.setLastLogin(LocalDateTime.parse(DateUtil.now(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
-            sysUserService.updateById(checkUser);
+            sysUserMapper.updateById(checkUser);
             // 把当前用户存入session
             StpUtil.getSession().set("userInfo", checkUser);
             SaTokenInfo tokenInfo = StpUtil.getTokenInfo();
@@ -109,8 +105,8 @@ public class AuthorizationServiceImpl implements AuthorizationService {
     }
 
     @Override
-    public CodeVO getCode() {
-        CodeVO codeVo = new CodeVO();
+    public CodeVo getCode() {
+        CodeVo codeVo = new CodeVo();
         // 未开启验证码
         if (!captchaProperties.getEnabled()) {
             // 验证码信息
@@ -136,24 +132,20 @@ public class AuthorizationServiceImpl implements AuthorizationService {
     }
 
     @Override
-    public Result userInfo(String token) {
+    public UserInfoVo userInfo(String token) {
+        // 根据token得到当前的登录id
         Object loginIdByToken = StpUtil.getLoginIdByToken(token);
-        SysUser sysUser = sysUserService.getByUserId(Long.valueOf(String.valueOf(loginIdByToken)));
-        // 得到当前登录用户的角色,用户前端生成路由
+        // 根据登录id获取用户
+        SysUser sysUser = sysUserMapper.selectById(Long.valueOf(String.valueOf(loginIdByToken)));
+        // 该用户的角色字符串
         String role = "";
+        // 查询该用户所拥有的角色
         List<SysRole> sysRoleList = sysRoleService.getSysRoleListByUserId(sysUser.getUserId());
         if (sysRoleList.size() > 0) {
             role = sysRoleList.stream().map(SysRole::getCode).collect(Collectors.joining(","));
         }
-        // 获取对应的菜单用户前端生成路由
-        List<SysMenu> nav = sysMenuService.getCurrentUserNav(sysUser);
-        return Result.success(MapUtil.builder()
-                .put("id", sysUser.getUserId())
-                .put("username", sysUser.getUsername())
-                .put("avatar", sysUser.getAvatar())
-                .put("created", sysUser.getCreated())
-                .put("role", role)
-                .put("nav", nav)
-                .map());
+        // 获取对应用户的树形菜单
+        List<SysMenu> nav = sysMenuService.getCurrentUserNav(sysUser.getUserId());
+        return new UserInfoVo(sysUser.getUsername(), sysUser.getAvatar(), role, nav, DateUtil.format(sysUser.getCreated(), "yyyy-MM-dd HH:mm:ss"));
     }
 }

@@ -2,8 +2,8 @@ package me.xu.modules.security.service;
 
 import me.xu.common.Result;
 import me.xu.modules.security.service.dto.UserDto;
-import me.xu.modules.security.service.vo.CodeVO;
-import me.xu.modules.system.pojo.SysUser;
+import me.xu.modules.security.service.vo.CodeVo;
+import me.xu.modules.security.service.vo.UserInfoVo;
 
 
 /**
@@ -14,14 +14,6 @@ import me.xu.modules.system.pojo.SysUser;
  * @author Wen
  */
 public interface AuthorizationService {
-
-    /**
-     * 注册功能
-     *
-     * @param sysUser 表单
-     * @return SysUser对象
-     */
-    SysUser register(SysUser sysUser);
 
     /**
      * 登录功能
@@ -37,12 +29,10 @@ public interface AuthorizationService {
      * @param token 前端传来的token
      * @return Result
      */
-    Result userInfo(String token);
+    UserInfoVo userInfo(String token);
 
     /**
      * 用户退出
-     *
-     * @return Result
      */
     void logout();
 
@@ -52,7 +42,7 @@ public interface AuthorizationService {
      *
      * @return CodeVO 验证码Vo
      */
-    CodeVO getCode();
+    CodeVo getCode();
 
 
 }

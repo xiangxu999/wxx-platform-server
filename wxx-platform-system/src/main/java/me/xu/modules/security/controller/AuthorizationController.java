@@ -7,11 +7,11 @@ import me.xu.annotation.Log;
 import me.xu.common.Result;
 import me.xu.modules.security.service.AuthorizationService;
 import me.xu.modules.security.service.dto.UserDto;
-import me.xu.modules.security.service.vo.CodeVO;
+import me.xu.modules.security.service.vo.CodeVo;
+import me.xu.modules.security.service.vo.UserInfoVo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import javax.annotation.Resource;
 
 
 /**
@@ -26,7 +26,7 @@ import javax.annotation.Resource;
 @RequestMapping(value = "/auth")
 public class AuthorizationController {
 
-    @Resource
+    @Autowired
     AuthorizationService authorizationService;
 
     @Log(value = "登录操作")
@@ -39,13 +39,13 @@ public class AuthorizationController {
     @ApiOperation(value = "用户信息")
     @RequestMapping(value = "/info", method = RequestMethod.GET)
     @SaCheckLogin
-    public Result userInfo(@RequestParam(value = "token") String token) {
+    public UserInfoVo userInfo(@RequestParam(value = "token") String token) {
         return authorizationService.userInfo(token);
     }
 
     @ApiOperation(value = "获取验证码")
     @RequestMapping(value = "/code", method = RequestMethod.GET)
-    public CodeVO getCode() {
+    public CodeVo getCode() {
         return authorizationService.getCode();
     }
 

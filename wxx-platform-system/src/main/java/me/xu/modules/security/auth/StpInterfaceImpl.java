@@ -5,8 +5,8 @@ import cn.dev33.satoken.session.SaSessionCustomUtil;
 import cn.dev33.satoken.stp.StpInterface;
 import cn.dev33.satoken.stp.StpUtil;
 import me.xu.modules.system.pojo.SysMenu;
-import me.xu.modules.system.service.impl.SysMenuServiceImpl;
-import me.xu.modules.system.service.impl.SysUserServiceImpl;
+import me.xu.modules.system.service.SysMenuService;
+import me.xu.modules.system.service.SysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -25,10 +25,10 @@ import java.util.stream.Collectors;
 public class StpInterfaceImpl implements StpInterface {
 
     @Autowired
-    private SysUserServiceImpl sysUserService;
+    private SysUserService sysUserService;
 
     @Autowired
-    private SysMenuServiceImpl sysMenuService;
+    private SysMenuService sysMenuService;
 
     /**
      * 返回一个账号所拥有的权限码集合

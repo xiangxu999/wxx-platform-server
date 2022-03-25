@@ -31,6 +31,7 @@ public class SaTokenConfigure implements WebMvcConfigurer {
 
     /**
      * Sa-Token 整合 jwt (Style模式)
+     *
      * @return StpLogic
      */
     @Bean
@@ -70,7 +71,8 @@ public class SaTokenConfigure implements WebMvcConfigurer {
 
                     // 如果是预检请求，则立即返回到前端
                     SaRouter.match(SaHttpMethod.OPTIONS)
-                            .free(r -> {})
+                            .free(r -> {
+                            })
                             .back();
                 });
     }

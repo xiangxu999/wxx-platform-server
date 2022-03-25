@@ -13,7 +13,7 @@ import java.util.List;
  * @author 旭日
  * @since 2021-11-08
  */
-public interface ISysUserService extends IService<SysUser> {
+public interface SysUserService extends IService<SysUser> {
 
     /**
      * 根据用户id返回用户对象

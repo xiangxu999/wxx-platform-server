@@ -102,26 +102,6 @@ sa-token:
   jwt-secret-key: U2FsdGVkX18NzqGeVpkb89hHM5H4dsa78HZrhOWkRgXX
   # 是否开启cookie模式
   is-read-cookie: false
-# 行为验证码
-aj:
-  captcha:
-    aes-status: true
-    cache-type: local
-    font-size: 25
-    font-style: 1
-    history-data-clear-enable: false
-    interference-options: 1
-    req-check-minute-limit: 60
-    req-frequency-limit-enable: false
-    req-get-lock-limit: 5
-    req-get-lock-seconds: 360
-    req-get-minute-limit: 30
-    req-verify-minute-limit: 60
-    slip-offset: 5
-    type: default
-    water-mark: 旭日
-    jigsaw: classpath:images/jigsaw
-    pic-click: classpath:images/pic-click
 # 普通验证码
 login:
   captcha:
@@ -180,6 +160,10 @@ knife4j:
     enable: true
     username: wxx
     password: wen.19981024sh
+
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
 
 

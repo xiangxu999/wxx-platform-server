@@ -55,7 +55,12 @@ public enum ResultCode {
     /**
      * 账号或密码错误
      */
-    LOGIN_ERROR(1011, "账号或密码错误");
+    LOGIN_ERROR(1011, "账号或密码错误"),
+
+    /**
+     * 用户角色为空
+     */
+    ROLE_EMPTY(1031, "用户角色不能为空");
 
 
     /**

@@ -35,7 +35,7 @@ public class Knife4jConfig {
                 .apiInfo(apiInfo())
                 .groupName(groupName)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("me.xu.controller"))
+                .apis(RequestHandlerSelectors.basePackage("me.xu"))
                 .paths(PathSelectors.any())
                 .build()
                 //赋予插件体系

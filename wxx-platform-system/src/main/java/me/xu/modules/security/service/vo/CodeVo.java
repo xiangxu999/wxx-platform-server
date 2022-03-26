@@ -1,5 +1,6 @@
 package me.xu.modules.security.service.vo;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 /**
@@ -12,19 +13,13 @@ import lombok.Data;
 @Data
 public class CodeVo {
 
-    /**
-     * 验证码uuid
-     */
+    @ApiModelProperty(value = "验证码uuid")
     private String uuid;
 
-    /**
-     * 图片
-     */
+    @ApiModelProperty(value = "图片")
     private String img;
 
-    /**
-     * 是否开启验证码
-     */
+    @ApiModelProperty(value = "是否开启验证码")
     private Integer enabled;
 
 }

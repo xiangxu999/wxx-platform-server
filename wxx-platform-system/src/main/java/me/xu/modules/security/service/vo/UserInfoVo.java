@@ -1,5 +1,6 @@
 package me.xu.modules.security.service.vo;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import me.xu.modules.system.pojo.SysMenu;
@@ -17,28 +18,18 @@ import java.util.List;
 @AllArgsConstructor
 public class UserInfoVo {
 
-    /**
-     * 用户名
-     */
+    @ApiModelProperty(value = "用户名")
     private String username;
 
-    /**
-     * 头像
-     */
+    @ApiModelProperty(value = "头像")
     private String avatar;
 
-    /**
-     * 角色
-     */
+    @ApiModelProperty(value = "角色")
     private String role;
 
-    /**
-     * 侧边栏
-     */
+    @ApiModelProperty(value = "侧边栏")
     private List<SysMenu> nav;
 
-    /**
-     * 账户创建时间
-     */
+    @ApiModelProperty(value = "账户创建时间")
     private String created;
 }

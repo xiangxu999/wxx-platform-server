@@ -13,7 +13,7 @@ import java.util.List;
 
 /**
  * <p>
- *  服务实现类
+ * 服务实现类
  * </p>
  *
  * @author 旭日
@@ -40,16 +40,12 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 
     @Override
     public List<SysMenu> getSysMenuListByUserId(Long userId) {
-        List<SysMenu> sysMenuList = sysMenuMapper.getSysMenuIdsByUserId(userId);
-        if (sysMenuList.size() > 0) {
-            return sysMenuList;
-        } else {
-            return new ArrayList<>();
-        }
+        return sysMenuMapper.getSysMenuIdsByUserId(userId);
     }
 
     /**
      * 把菜单转换为树形菜单
+     *
      * @param menus 菜单
      * @return 树形菜单
      */

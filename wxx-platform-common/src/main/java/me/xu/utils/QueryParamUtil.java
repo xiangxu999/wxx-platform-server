@@ -1,5 +1,6 @@
 package me.xu.utils;
 
+import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -73,6 +74,10 @@ public class QueryParamUtil {
     private static <T> void configFilter(QueryWrapper<T> queryWrapper, QueryParam queryParam) {
         // 获取查询Map
         List<FilterParam> filter = queryParam.getFilter();
+        // 没有设置过滤条件，直接返回
+        if (ObjectUtil.isNull(filter)) {
+            return;
+        }
         filter.forEach(item -> {
             // 连接条件
             if (QueryConst.Link.LINK_OR.equalsIgnoreCase(item.getLinkType())) {
@@ -143,6 +148,10 @@ public class QueryParamUtil {
      */
     private static <T> void configOrder(QueryWrapper<T> queryWrapper, QueryParam queryParam) {
         String order = queryParam.getOrder();
+        // 没有设置，直接返回
+        if (StrUtil.isEmpty(order)) {
+            return;
+        }
         String[] groupArray = order.split(",");
         for (String orderItem : groupArray) {
             String orderField = StrUtil.subBefore(orderItem.trim(), " ", false);

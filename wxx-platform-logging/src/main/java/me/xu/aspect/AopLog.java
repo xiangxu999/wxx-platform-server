@@ -38,7 +38,7 @@ public class AopLog {
      * 配置切入点
      */
     @Pointcut("@annotation(me.xu.annotation.Log)")
-    public void logPointcut(){
+    public void logPointcut() {
         // 该方法无方法体,主要为了让同类中其他方法使用此切入点
     }
 
@@ -54,7 +54,7 @@ public class AopLog {
         currentTime.set(System.currentTimeMillis());
         result = point.proceed();
         // 配置一个简单log
-        SysLog log = new SysLog("INFO",System.currentTimeMillis() - currentTime.get());
+        SysLog log = new SysLog("INFO", System.currentTimeMillis() - currentTime.get());
         currentTime.remove();
         HttpServletRequest request = RequestHolder.getHttpServletRequest();
         logService.save(LogUtil.getBrowser(request), LogUtil.getIp(request), LogUtil.getPlatform(request), point, log);
@@ -65,7 +65,7 @@ public class AopLog {
      * 配置异常通知
      *
      * @param point join point for advice
-     * @param e exception
+     * @param e     exception
      */
     @AfterThrowing(pointcut = "logPointcut()", throwing = "e")
     public void logAfterThrowing(JoinPoint point, Throwable e) {
@@ -73,7 +73,7 @@ public class AopLog {
         currentTime.remove();
         log.setExceptionDetail(ThrowableUtil.getStackTrace(e).getBytes());
         HttpServletRequest request = RequestHolder.getHttpServletRequest();
-        logService.save(LogUtil.getBrowser(request), LogUtil.getIp(request), LogUtil.getPlatform(request), (ProceedingJoinPoint)point, log);
+        logService.save(LogUtil.getBrowser(request), LogUtil.getIp(request), LogUtil.getPlatform(request), (ProceedingJoinPoint) point, log);
     }
 
 

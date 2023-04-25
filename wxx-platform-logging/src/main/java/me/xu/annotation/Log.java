@@ -19,7 +19,8 @@ import java.lang.annotation.Target;
 public @interface Log {
     /**
      * 日志描述
+     *
      * @return String
      */
-    String value() default  "";
+    String value() default "";
 }

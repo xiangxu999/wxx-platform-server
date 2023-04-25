@@ -1,7 +1,11 @@
 package me.xu.common;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import me.xu.consts.QueryConst;
+import lombok.EqualsAndHashCode;
+
+import java.io.Serializable;
 
 /**
  * Description 过滤参数
@@ -11,37 +15,22 @@ import me.xu.consts.QueryConst;
  * @author Wen
  */
 @Data
-public class FilterParam {
-    /**
-     * 条件的连接
-     * 默认为and
-     */
+@EqualsAndHashCode(callSuper = false)
+@ApiModel(value="FilterParam", description="过滤参数")
+public class FilterParam implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
+    @ApiModelProperty(value = "条件的连接(默认为and)")
     private String linkType;
 
-    /**
-     * 条件的字段
-     */
+    @ApiModelProperty(value = "条件的字段")
     private String field;
 
-    /**
-     * 条件的类型
-     */
+    @ApiModelProperty(value = "条件的类型")
     private String type;
 
-    /**
-     * 条件值
-     */
+    @ApiModelProperty(value = "条件值")
     private String value;
-
-    public FilterParam(String linkType, String field, String type, String value) {
-        this.linkType = linkType;
-        this.field = field;
-        this.type = type;
-        this.value = value;
-    }
-
-    public FilterParam(String field, String type, String value) {
-        this(QueryConst.Link.LINK_AND, field, type, value);
-    }
 
 }

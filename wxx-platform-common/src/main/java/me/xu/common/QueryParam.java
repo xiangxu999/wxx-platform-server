@@ -1,8 +1,12 @@
 package me.xu.common;
 
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -13,7 +17,11 @@ import java.util.List;
  * @author Wen
  */
 @Data
-public class QueryParam {
+@EqualsAndHashCode(callSuper = false)
+@ApiModel(value="QueryParam", description="通用查询参数")
+public class QueryParam implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     @ApiModelProperty(value = "字段名称,为空或者*表示所有字段(id, name)")
     private String fields;
 
@@ -21,7 +29,7 @@ public class QueryParam {
     private String order;
 
     @ApiModelProperty(value = "过滤条件(key - 过滤字段 value - 过滤条件)")
-    private List<FilterParam> filter;
+    private List<FilterParam> filter = new ArrayList<>();
 
     @ApiModelProperty(value = "查询结果分组(id, name)")
     private String group;
